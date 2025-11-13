@@ -1,0 +1,33 @@
+name: Python Hello World CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  dev:
+    name: Dev Job (Ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          chmod +x scripts/dev_run.sh
+          ./scripts/dev_run.sh
+
+  prod:
+    name: Prod Job (Ubuntu)
+    runs-on: ubuntu-latest
+    needs: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          chmod +x scripts/prod_run.sh
+          ./scripts/prod_run.sh
+
